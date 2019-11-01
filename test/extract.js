@@ -8,7 +8,7 @@ global.Promise = Promise;
 Promise.longStackTraces();
 
 // Relative path of the PDF file.
-let pdfPath = process.argv[2] || './pdfs/c_tutorial.pdf',
+let pdfPath = process.argv[2] || './pdfs/eyrolles.pdf',
 	numPagesLimit = parseInt(process.argv[3]) || Infinity,
 	fileBuffer = fs.readFileSync(pdfPath),
 	fileHash = crypto.createHash('md5').update(fileBuffer).digest('hex'),
@@ -26,33 +26,35 @@ console.log('Output to: ' + outputDir);
 
 let pdfExtractor = new PdfExtractor(outputDir, {
 	viewportScale: (width, height) => {
+		return 1;
 		if (width > height) {
 			return 1100 / width;
 		}
 		return 800 / width;
 	},
 	pageRange: [1, numPagesLimit]
+	// pageRange: [8, 8]
 });
 
 pdfExtractor.parseFromFileBuffer(fileBuffer).then(function (doc) {
 
 	console.log('# End of Document');
 
-	console.log('Parsing html preview');
+	// console.log('Parsing html preview');
 
-	setTimeout(() => {
-		let fileInfo = JSON.parse(fs.readFileSync(outputDir + '/info.json', {encoding: 'utf8'}));
+	// setTimeout(() => {
+	// 	let fileInfo = JSON.parse(fs.readFileSync(outputDir + '/info.json', { encoding: 'utf8' }));
 
-		ejs.renderFile('./template.ejs', {dir:outputDir, info: fileInfo}, {}, function(err, result){
-			fs.writeFile(outputDir + '/preview.html', result, { encoding: 'utf8' }, function(err) {
-				if (err) {
-					return console.log(err);
-				}
+	// 	ejs.renderFile('./template.ejs', { dir: outputDir, info: fileInfo }, {}, function (err, result) {
+	// 		fs.writeFile(outputDir + '/preview.html', result, { encoding: 'utf8' }, function (err) {
+	// 			if (err) {
+	// 				return console.log(err);
+	// 			}
 
-				console.log('Done :' + outputDir);
-			});
-		})
-	}, 20);
+	// 			console.log('Done :' + outputDir);
+	// 		});
+	// 	})
+	// }, 20);
 
 
 
