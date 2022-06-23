@@ -15,7 +15,7 @@
   "dependencies": {
     "bluebird": "^2.9.34",
     "canvas": "^2.0.1",
-    "jsdom": "13.0.*",
+    "jsdom": "16.5.*",
     "mkdirp": "^0.5.1",
     "opentype.js": "^0.7.3",
     "pdfjs-dist": "2.0.402",
